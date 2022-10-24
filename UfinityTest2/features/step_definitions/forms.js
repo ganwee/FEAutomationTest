@@ -8,25 +8,32 @@ Given('I click on Practice Form', async function () {
     await this.driver.findElement(By.xpath(FormsPage.PracticeFormXPath)).click();
 });
 
-When('I submit the form with details', async function () {
-    await FormsPage.fillAllData(this.driver, studentKelvin);
+When('I submit the form with details without last name', async function () {
+    await FormsPage.fillAllDataExceptLastName(this.driver, studentKelvin);
     await FormsPage.submitData(this.driver);
 });
 
+Then('I should see the error in Last Name field', async function (table) {
+    /*Not sure how to automate this as there's no indicator when error display is changed*/
+    // const expectedError = table.rowHash();
+    // actualError =
+    //     assert.equal(expectedError['error'], actualError)
+});
 
-// Then('I should see the entered details inside a text box under the form', async function (table) {
-//     const expectedData = table.rowsHash();
+When('I submit the form with all details correctly', async function () {
+    await FormsPage.fillDataLastName(this.driver, studentKelvin);
+    await FormsPage.submitData(this.driver);
+});
 
-//     await this.driver.wait(until.elementLocated(By.id(ElementsPage.SubmittedPermanentAddress)), 10 * 1000)
-
-//     var actualData = {
-//         "actualFullName": await this.driver.findElement(By.id(ElementsPage.SubmittedName)).getText(),
-//         "actualEmail": await this.driver.findElement(By.id(ElementsPage.SubmittedEmail)).getText(),
-//         "actualCurrentAddress": await this.driver.findElement(By.id(ElementsPage.SubmittedCurrentAddress)).getText(),
-//         "actualPermanentAddress": await this.driver.findElement(By.id(ElementsPage.SubmittedPermanentAddress)).getText()
-//     }
-
-//     for (let i = 0; i < expectedData.length; i++) {
-//         assert.equal(expectedData[i], actualData[i])
-//     }
-// });
+Then('I should see Thanks for submitting the form page', async function () {
+    const expectedHeader = "Thanks for submitting the form"
+    actualHeader = await this.driver.findElement(By.className(FormsPage.SubmittedFormHeaderClass)).getText();
+    actualData = {}
+    for (let i = 1; i < studentKelvin.length; i++) {
+        actualData.push(await this.driver.findElement(By.xpath("/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[" + i + "]/td[2]")).getText())
+    }
+    assert.equal(expectedHeader, actualHeader)
+    for (let i = 1; i < studentKelvin.length; i++) {
+        assert.equal(studentKelvin[i - 1] + " " + studentKelvin[i], actualData[i])
+    }
+});
