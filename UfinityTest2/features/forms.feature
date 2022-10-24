@@ -9,7 +9,6 @@ Feature: Forms
     Scenario: Fill up all fields correctly without last name
         When I submit the form with details without last name
         Then I should see the error in Last Name field
-            | error |  |
         
     Scenario: Fill up last name correctly
         When I submit the form with all details correctly
