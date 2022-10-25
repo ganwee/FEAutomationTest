@@ -10,8 +10,9 @@ Feature: Forms
         When I submit the form with details without last name
         Then I should see the error in Last Name field
         
-        When Fill up last name correctly
-        When I submit the form with all details correctly
+        When I fill up last name correctly and resubmit the form
         Then I should see Thanks for submitting the form page
         
+        When I click on close button
+        Then I should see Practice Form page
     

@@ -12,7 +12,8 @@ class FormsPage {
     get PracticeFormDateSelectorByYearClass() { return "react-datepicker__year-select" }
     get PracticeFormDateSelectorByDayClass() { return "react-datepicker__day react-datepicker__day--018" }
     get PracticeFormSubjectsClass() { return "subjects-auto-complete__control" }
-    get PracticeFormSubjectsAutoCompleteMenuId() { return "subjectsInput" }
+    get PracticeFormSubjectsAutoCompleteTextboxId() { return "subjectsInput" }
+    get PracticeFormSubjectsAutoCompleteMenuId() { return "react-select-2-option-0" }
     get PracticeFormHobbiesSportsCheckBoxXPath() { return "//*[@id='hobbiesWrapper']/div[2]/div[1]/label" }
     get PracticeFormHobbiesMusicCheckBoxXPath() { return "//*[@id='hobbiesWrapper']/div[2]/div[3]/label" }
     get PracticeFormUploadPictureBtnId() { return "uploadPicture" }
@@ -21,6 +22,7 @@ class FormsPage {
     get PracticeFormStateDropDownListOptionXPath() { return "//*[text()='NCR']" }
     get PracticeFormCityDropDownId() { return "city" }
     get PracticeFormCityDropDownListOptionXPath() { return "//*[text()='Noida']" }
+    get PracticeFormSubmitButtonId() { return "submit" }
 
     get SubmittedFormHeaderClass() { return "modal-title h4" }
     get SubmittedStudentNameXPath() { return "/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[1]/td[2]" }
@@ -34,7 +36,7 @@ class FormsPage {
     get SubmittedStudentAddressXPath() { return "/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[9]/td[2]" }
     get SubmittedStudentStateAndCityXPath() { return "/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[10]/td[2]" }
 
-    get SubmittedFormError() { return }
+    get PracticeFormCloseButtonId() { return "closeLargeModal" }
 
     fillPracticeFormFirstName(driver, s) {
         driver.findElement(By.id(this.PracticeFormFirstNameFieldId)).sendKeys(s);
@@ -67,10 +69,11 @@ class FormsPage {
     async fillPracticeFormSubjects(driver, s) {
         let sArray = s.split(",")
 
-        driver.findElement(By.className(this.PracticeFormSubjectsClass)).click();
-        for (let i = 0; i < s.length; i++) {
-            await driver.findElement(By.id(this.PracticeFormSubjectsAutoCompleteMenuId)).sendKeys(sArray[i]);
-            await driver.actions().sendKeys(Key.ENTER).perform();
+        await driver.findElement(By.className(this.PracticeFormSubjectsClass)).click();
+        for (let i = 0; i < sArray.length; i++) {
+            await driver.findElement(By.id(this.PracticeFormSubjectsAutoCompleteTextboxId)).sendKeys(sArray[i]);
+            await driver.findElement(By.id(this.PracticeFormSubjectsAutoCompleteMenuId)).click();
+            // await driver.actions().sendKeys(Key.ENTER).perform();
         }
     }
     async fillPracticeFormHobbies(driver, s) {
@@ -93,33 +96,35 @@ class FormsPage {
     }
     async fillPracticeFormStateAndCity(driver, s1, s2) {
         await driver.findElement(By.id(this.PracticeFormStateDropDownId)).click();
-        await driver.wait(until.elementLocated(By.xpath(this.PracticeFormStateDropDownListOptionXPath)), 5 * 1000)
+        await driver.wait(until.elementLocated(By.xpath(this.PracticeFormStateDropDownListOptionXPath)), 10 * 1000)
         await driver.findElement(By.xpath("//*[text()='" + s1 + "']")).click();
 
         await driver.findElement(By.id(this.PracticeFormCityDropDownId)).click();
-        await driver.wait(until.elementLocated(By.xpath(this.PracticeFormCityDropDownListOptionXPath)), 5 * 1000)
+        await driver.wait(until.elementLocated(By.xpath(this.PracticeFormCityDropDownListOptionXPath)), 10 * 1000)
         await driver.findElement(By.xpath("//*[text()='" + s2 + "']")).click();
 
 
     }
-    fillAllDataExceptLastName(driver, data) {
-        // this.fillPracticeFormFirstName(driver, data['firstName']) //working
-
-        // this.fillPracticeFormEmail(driver, data['email']) //working
-        // this.fillPracticeFormGender(driver, data['gender']) //working
-        // this.fillPracticeFormMobile(driver, data['mobile']) //working
-        // this.fillPracticeFormDateOfBirth(driver, data['dateOfBirth']) //working
-        this.fillPracticeFormSubjects(driver, data['subjects'])
-        // this.fillPracticeFormHobbies(driver, data['hobbies']) //working
-        // this.fillPracticeFormUploadPicture(driver, data['picture']) //working on local
-        // this.fillPracticeFormCurrentAddress(driver, data['address']) //working
-        // this.fillPracticeFormStateAndCity(driver, data['state'], data['city']) //working
+    async fillAllDataExceptLastName(driver, data) {
+        await this.fillPracticeFormFirstName(driver, data['firstName']) //working
+        await this.fillPracticeFormEmail(driver, data['email']) //working
+        await this.fillPracticeFormGender(driver, data['gender']) //working
+        await this.fillPracticeFormMobile(driver, data['mobile']) //working
+        await this.fillPracticeFormDateOfBirth(driver, data['dateOfBirth']) //working
+        await this.fillPracticeFormSubjects(driver, data['subjects'])
+        await this.fillPracticeFormHobbies(driver, data['hobbies']) //working
+        await this.fillPracticeFormUploadPicture(driver, data['picture']) //working on local
+        await this.fillPracticeFormCurrentAddress(driver, data['address']) //working
+        await this.fillPracticeFormStateAndCity(driver, data['state'], data['city']) //working
     }
-    fillDataLastName(driver, data) {
-        this.fillPracticeFormLastName(driver, data['lastName']) //working but don't use
+    async fillDataLastName(driver, data) {
+        await this.fillPracticeFormLastName(driver, data['lastName']) //working but don't use
     }
-    submitData(driver) {
-        driver.findElement(By.id(this.PracticeFormSubmitButtonId)).click();
+    async submitData(driver) {
+        await driver.findElement(By.id(this.PracticeFormSubmitButtonId)).click();
+    }
+    async closeSubmittedForm(driver) {
+        await driver.findElement(By.id(this.PracticeFormCloseButtonId)).click();
     }
 }
 
