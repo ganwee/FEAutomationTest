@@ -10,7 +10,7 @@ Feature: Forms
         When I submit the form with details without last name
         Then I should see the error in Last Name field
         
-    Scenario: Fill up last name correctly
+        When Fill up last name correctly
         When I submit the form with all details correctly
         Then I should see Thanks for submitting the form page
         

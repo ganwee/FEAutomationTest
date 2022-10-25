@@ -1,4 +1,4 @@
-const { By, until, Select } = require('selenium-webdriver');
+const { By, until, Select, Key } = require('selenium-webdriver');
 
 class FormsPage {
     get PracticeFormXPath() { return "//span[text()='Practice Form']" }
@@ -12,14 +12,15 @@ class FormsPage {
     get PracticeFormDateSelectorByYearClass() { return "react-datepicker__year-select" }
     get PracticeFormDateSelectorByDayClass() { return "react-datepicker__day react-datepicker__day--018" }
     get PracticeFormSubjectsClass() { return "subjects-auto-complete__control" }
-    get PracticeFormSubjectsAutoCompleteMenuClass() { return "subjects-auto-complete__value" }
+    get PracticeFormSubjectsAutoCompleteMenuId() { return "subjectsInput" }
     get PracticeFormHobbiesSportsCheckBoxXPath() { return "//*[@id='hobbiesWrapper']/div[2]/div[1]/label" }
     get PracticeFormHobbiesMusicCheckBoxXPath() { return "//*[@id='hobbiesWrapper']/div[2]/div[3]/label" }
     get PracticeFormUploadPictureBtnId() { return "uploadPicture" }
     get PracticeFormCurrentAddressTextAreaId() { return "currentAddress" }
     get PracticeFormStateDropDownId() { return "state" }
-    get PracticeFormStateDropDownListClass() { return "css-2613qy-menu" }
+    get PracticeFormStateDropDownListOptionXPath() { return "//*[text()='NCR']" }
     get PracticeFormCityDropDownId() { return "city" }
+    get PracticeFormCityDropDownListOptionXPath() { return "//*[text()='Noida']" }
 
     get SubmittedFormHeaderClass() { return "modal-title h4" }
     get SubmittedStudentNameXPath() { return "/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[1]/td[2]" }
@@ -33,7 +34,7 @@ class FormsPage {
     get SubmittedStudentAddressXPath() { return "/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[9]/td[2]" }
     get SubmittedStudentStateAndCityXPath() { return "/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[10]/td[2]" }
 
-    get SubmittedFormError(){return }
+    get SubmittedFormError() { return }
 
     fillPracticeFormFirstName(driver, s) {
         driver.findElement(By.id(this.PracticeFormFirstNameFieldId)).sendKeys(s);
@@ -64,13 +65,12 @@ class FormsPage {
         await driver.findElement(By.className(this.PracticeFormDateSelectorByDayClass)).click();
     }
     async fillPracticeFormSubjects(driver, s) {
-        // let sArray = s.split(",")
-
-        /*Not working, as unable to interact and complete autofill form*/
+        let sArray = s.split(",")
 
         driver.findElement(By.className(this.PracticeFormSubjectsClass)).click();
         for (let i = 0; i < s.length; i++) {
-            driver.findElement(By.className(this.PracticeFormSubjectsClass)).sendKeys(s[i]);
+            await driver.findElement(By.id(this.PracticeFormSubjectsAutoCompleteMenuId)).sendKeys(sArray[i]);
+            await driver.actions().sendKeys(Key.ENTER).perform();
         }
     }
     async fillPracticeFormHobbies(driver, s) {
@@ -91,22 +91,16 @@ class FormsPage {
     fillPracticeFormCurrentAddress(driver, s) {
         driver.findElement(By.id(this.PracticeFormCurrentAddressTextAreaId)).sendKeys(s);
     }
-    async fillPracticeFormState(driver, s) {
+    async fillPracticeFormStateAndCity(driver, s1, s2) {
         await driver.findElement(By.id(this.PracticeFormStateDropDownId)).click();
-        await driver.wait(until.elementLocated(By.className(this.PracticeFormStateDropDownListClass)), 50 * 1000)
+        await driver.wait(until.elementLocated(By.xpath(this.PracticeFormStateDropDownListOptionXPath)), 5 * 1000)
+        await driver.findElement(By.xpath("//*[text()='" + s1 + "']")).click();
 
-        /*Not working, unable to select item from dropdown list as web element keeps disappearing*/
+        await driver.findElement(By.id(this.PracticeFormCityDropDownId)).click();
+        await driver.wait(until.elementLocated(By.xpath(this.PracticeFormCityDropDownListOptionXPath)), 5 * 1000)
+        await driver.findElement(By.xpath("//*[text()='" + s2 + "']")).click();
 
-        // let allOptions = driver.findElements(By.className(this.PracticeFormStateDropDownListClass))
 
-        // for (let i = 0; i < allOptions.length; i++) {
-        //     if (allOptions[i].contains(String(s))) {
-        //         await driver.findElement(By.className(allOptions[i])).click();
-        //     }
-        // }
-    }
-    fillPracticeFormCity(driver, s) {
-        driver.findElement(By.id(this.PracticeFormCityDropDownId)).sendKeys(s);
     }
     fillAllDataExceptLastName(driver, data) {
         // this.fillPracticeFormFirstName(driver, data['firstName']) //working
@@ -115,12 +109,11 @@ class FormsPage {
         // this.fillPracticeFormGender(driver, data['gender']) //working
         // this.fillPracticeFormMobile(driver, data['mobile']) //working
         // this.fillPracticeFormDateOfBirth(driver, data['dateOfBirth']) //working
-        // this.fillPracticeFormSubjects(driver, data['subjects'])
+        this.fillPracticeFormSubjects(driver, data['subjects'])
         // this.fillPracticeFormHobbies(driver, data['hobbies']) //working
-        this.fillPracticeFormUploadPicture(driver, data['picture']) //working on local
+        // this.fillPracticeFormUploadPicture(driver, data['picture']) //working on local
         // this.fillPracticeFormCurrentAddress(driver, data['address']) //working
-        // this.fillPracticeFormState(driver, data['state'])
-        // this.fillPracticeFormCity(driver, data['city'])
+        // this.fillPracticeFormStateAndCity(driver, data['state'], data['city']) //working
     }
     fillDataLastName(driver, data) {
         this.fillPracticeFormLastName(driver, data['lastName']) //working but don't use

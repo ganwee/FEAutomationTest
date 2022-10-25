@@ -13,5 +13,5 @@ exports.studentKelvin = {
 Singapore
 458714`,
     "state": "NCR",
-    "city": "Naida"
+    "city": "Noida"
 }
