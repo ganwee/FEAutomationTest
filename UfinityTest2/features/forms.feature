@@ -7,7 +7,8 @@ Feature: Forms
         And I click on Practice Form
 
     Scenario: Fill up all fields correctly without last name
-        When I submit the form with details without last name
+        When I fill the form with details without last name and city state
+        And I submit the form after clicking widgets and filling in the remaining details
         Then I should see the error in Last Name field
         
         When I fill up last name correctly and resubmit the form

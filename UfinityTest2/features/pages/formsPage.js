@@ -23,6 +23,7 @@ class FormsPage {
     get PracticeFormCityDropDownId() { return "city" }
     get PracticeFormCityDropDownListOptionXPath() { return "//*[text()='Noida']" }
     get PracticeFormSubmitButtonId() { return "submit" }
+    get PracticeFormCloseButtonId() { return "closeLargeModal" }
 
     get SubmittedFormHeaderClass() { return "modal-title h4" }
     get SubmittedStudentNameXPath() { return "/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[1]/td[2]" }
@@ -36,7 +37,7 @@ class FormsPage {
     get SubmittedStudentAddressXPath() { return "/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[9]/td[2]" }
     get SubmittedStudentStateAndCityXPath() { return "/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[10]/td[2]" }
 
-    get PracticeFormCloseButtonId() { return "closeLargeModal" }
+    get WidgetsXPath() { return "//div[text()='Widgets']" }
 
     fillPracticeFormFirstName(driver, s) {
         driver.findElement(By.id(this.PracticeFormFirstNameFieldId)).sendKeys(s);
@@ -57,7 +58,7 @@ class FormsPage {
     }
     async fillPracticeFormDateOfBirth(driver, s) {
         await driver.findElement(By.id(this.PracticeFormDateOfBirthId)).click();
-        await driver.wait(until.elementLocated(By.className(this.PracticeFormDateSelectorByMonthClass)), 50 * 1000)
+        await driver.wait(until.elementLocated(By.className(this.PracticeFormDateSelectorByMonthClass)), 10 * 1000)
 
         let monthSelector = new Select(driver.findElement(By.className(this.PracticeFormDateSelectorByMonthClass)))
         let yearSelector = new Select(driver.findElement(By.className(this.PracticeFormDateSelectorByYearClass)))
@@ -105,20 +106,22 @@ class FormsPage {
 
 
     }
-    async fillAllDataExceptLastName(driver, data) {
+    async fillAllDataExceptLastNameAndCityState(driver, data) {
         await this.fillPracticeFormFirstName(driver, data['firstName']) //working
         await this.fillPracticeFormEmail(driver, data['email']) //working
         await this.fillPracticeFormGender(driver, data['gender']) //working
         await this.fillPracticeFormMobile(driver, data['mobile']) //working
         await this.fillPracticeFormDateOfBirth(driver, data['dateOfBirth']) //working
-        await this.fillPracticeFormSubjects(driver, data['subjects'])
+        await this.fillPracticeFormSubjects(driver, data['subjects']) //working
         await this.fillPracticeFormHobbies(driver, data['hobbies']) //working
         await this.fillPracticeFormUploadPicture(driver, data['picture']) //working on local
         await this.fillPracticeFormCurrentAddress(driver, data['address']) //working
-        await this.fillPracticeFormStateAndCity(driver, data['state'], data['city']) //working
     }
     async fillDataLastName(driver, data) {
-        await this.fillPracticeFormLastName(driver, data['lastName']) //working but don't use
+        await this.fillPracticeFormLastName(driver, data['lastName']) //working
+    }
+    async fillDataStateAndCity(driver, data) {
+        await this.fillPracticeFormStateAndCity(driver, data['state'], data['city']) //working
     }
     async submitData(driver) {
         await driver.findElement(By.id(this.PracticeFormSubmitButtonId)).click();

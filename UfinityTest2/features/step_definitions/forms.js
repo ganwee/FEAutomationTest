@@ -1,27 +1,39 @@
 const assert = require('assert');
 const { Given, When, Then } = require('@cucumber/cucumber');
-const { Builder, By, until, Browser } = require('selenium-webdriver');
+const { Builder, By, until, Browser, Key } = require('selenium-webdriver');
 const FormsPage = require('../pages/formsPage');
 const { studentKelvin } = require('../constants/userFields');
-const { errorIcons } = require('../constants/errorIcons');
+const { ValidationConstants } = require('../constants/errorIcons');
+const delay = require('delay');
 
 Given('I click on Practice Form', async function () {
     await this.driver.findElement(By.xpath(FormsPage.PracticeFormXPath)).click();
 });
 
-When('I submit the form with details without last name', async function () {
-    await FormsPage.fillAllDataExceptLastName(this.driver, studentKelvin);
+When('I fill the form with details without last name and city state', {setTimeout: 10 * 1000}, async function () {
+    await FormsPage.fillAllDataExceptLastNameAndCityState(this.driver, studentKelvin);
+});
+
+When('I submit the form after clicking widgets and filling in the remaining details', async function () {
+    await this.driver.findElement(By.xpath(FormsPage.WidgetsXPath)).click();
+    await delay(1000)
+    await this.driver.findElement(By.css("body")).sendKeys(Key.CONTROL, Key.END);
+    await delay(1000)
+    await FormsPage.fillDataStateAndCity(this.driver, studentKelvin);
     await FormsPage.submitData(this.driver);
 });
 
 Then('I should see the error in Last Name field', async function () {
-    expectedErrorIcon = errorIcons.url
+    expectedErrorIcon = ValidationConstants.lastNameErrorIconUrl
     actualErrorIcon = await this.driver.findElement(By.id(FormsPage.PracticeFormLastNameFieldId)).getCssValue("background-image")
     assert.equal(expectedErrorIcon, actualErrorIcon)
 });
 
 When('I fill up last name correctly and resubmit the form', async function () {
     await FormsPage.fillDataLastName(this.driver, studentKelvin);
+    await delay(1000)
+    await this.driver.findElement(By.css("body")).sendKeys(Key.CONTROL, Key.END);
+    await delay(1000)
     await FormsPage.submitData(this.driver);
 });
 
@@ -29,15 +41,23 @@ Then('I should see Thanks for submitting the form page', async function () {
     const expectedHeader = "Thanks for submitting the form"
     const studentFullName = studentKelvin.firstName + " " + studentKelvin.lastName
     actualHeader = await this.driver.findElement(By.className(FormsPage.SubmittedFormHeaderClass)).getText();
-
     assert.equal(expectedHeader, actualHeader)
     assert.equal(studentFullName, await this.driver.findElement(By.xpath("/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[1]/td[2]")).getText())
     for (let i = 2; i < studentKelvin.length; i++) {
-        assert.equal(studentKelvin[i], await this.driver.findElement(By.xpath("/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[" + i-1 + "]/td[2]")).getText())
+        assert.equal(studentKelvin[i], await this.driver.findElement(By.xpath("/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[" + i - 1 + "]/td[2]")).getText())
     }
+
+
+    // let actualData = []
+    // let newData = ""
+    // for (let i = 1; i < studentKelvin.length; i++) {
+    //     newData = await this.driver.findElement(By.xpath("/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[" + i + "]/td[2]")).getText()
+    //     actualData.push(newData)
+    // }
+    // assert.equal(studentFullName, actualData[0])
 });
 
-When('I click on close button', async function(){
+When('I click on close button', async function () {
     await FormsPage.closeSubmittedForm(this.driver);
 })
 
