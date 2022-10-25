@@ -3,7 +3,7 @@ const { Given, When, Then } = require('@cucumber/cucumber');
 const { Builder, By, until, Browser, Key } = require('selenium-webdriver');
 const FormsPage = require('../pages/formsPage');
 const { studentKelvin } = require('../constants/userFields');
-const { ValidationConstants } = require('../constants/errorIcons');
+const { ValidationConstants } = require('../constants/validationConstants');
 const delay = require('delay');
 
 Given('I click on Practice Form', async function () {
@@ -51,7 +51,7 @@ Then('I should see Thanks for submitting the form page', async function () {
     for (const property in studentKelvin) {
         actualData[property] = await this.driver.findElement(By.xpath("/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[" + i + "]/td[2]")).getText()
         if (property == "picture") {
-            tempArray = studentKelvin[property].split("\\")
+            tempArray = studentKelvin[property].split("/")
             studentKelvin[property] = tempArray[tempArray.length - 1]
         }
         assert.equal(studentKelvin[property], actualData[property])
