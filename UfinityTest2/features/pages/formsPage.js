@@ -2,6 +2,7 @@ const { By, until, Select, Key } = require('selenium-webdriver');
 
 class FormsPage {
     get PracticeFormXPath() { return "//span[text()='Practice Form']" }
+    get PracticeFormMainHeaderClass() { return "main-header" }
     get PracticeFormFirstNameFieldId() { return "firstName" }
     get PracticeFormLastNameFieldId() { return "lastName" }
     get PracticeFormEmailFieldId() { return "userEmail" }
@@ -26,16 +27,6 @@ class FormsPage {
     get PracticeFormCloseButtonId() { return "closeLargeModal" }
 
     get SubmittedFormHeaderClass() { return "modal-title h4" }
-    get SubmittedStudentNameXPath() { return "/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[1]/td[2]" }
-    get SubmittedStudentEmailXPath() { return "/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[2]/td[2]" }
-    get SubmittedStudentGenderXPath() { return "/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[3]/td[2]" }
-    get SubmittedStudentMobileXPath() { return "/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[4]/td[2]" }
-    get SubmittedStudentDateOfBirthXPath() { return "/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[5]/td[2]" }
-    get SubmittedStudentSubjectsXPath() { return "/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[6]/td[2]" }
-    get SubmittedStudentHobbiesXPath() { return "/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[7]/td[2]" }
-    get SubmittedStudentPictureXPath() { return "/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[8]/td[2]" }
-    get SubmittedStudentAddressXPath() { return "/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[9]/td[2]" }
-    get SubmittedStudentStateAndCityXPath() { return "/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[10]/td[2]" }
 
     get WidgetsXPath() { return "//div[text()='Widgets']" }
 
