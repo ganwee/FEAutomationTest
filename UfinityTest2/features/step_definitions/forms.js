@@ -45,22 +45,22 @@ Then('I should see Thanks for submitting the form page', async function () {
     actualHeader = await this.driver.findElement(By.className(FormsPage.SubmittedFormHeaderClass)).getText();
 
     assert.equal(expectedHeader, actualHeader)
-    assert.equal(studentFullName, await this.driver.findElement(By.xpath("/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[1]/td[2]")).getText())
-    for (let i = 2; i < studentKelvin.length; i++) {
-        assert.equal(studentKelvin[i], await this.driver.findElement(By.xpath("/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[" + i - 1 + "]/td[2]")).getText())
+
+    let i = 1
+    let actualData = {}
+    for (const property in studentKelvin) {
+        actualData[property] = await this.driver.findElement(By.xpath("/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[" + i + "]/td[2]")).getText()
+        if (property == "picture") {
+            tempArray = studentKelvin[property].split("\\")
+            studentKelvin[property] = tempArray[tempArray.length - 1]
+        }
+        assert.equal(studentKelvin[property], actualData[property])
+        i++
     }
-
-
-    // let actualData = []
-    // let newData = ""
-    // for (let i = 1; i < studentKelvin.length; i++) {
-    //     newData = await this.driver.findElement(By.xpath("/html/body/div[4]/div/div/div[2]/div/table/tbody/tr[" + i + "]/td[2]")).getText()
-    //     actualData.push(newData)
-    // }
-    // assert.equal(studentFullName, actualData[0])
 });
 
 When('I click on close button', async function () {
+    await delay(0.5 * 1000)
     await FormsPage.closeSubmittedForm(this.driver);
 })
 

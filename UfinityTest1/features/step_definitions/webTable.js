@@ -32,8 +32,8 @@ Then('I should see form submission added to the table', async function (table) {
         "Department": await this.driver.findElement(By.xpath(WebTablePage.SubmittedDepartmentXPath)).getText()
     }
 
-    for (let i = 0; i < expectedData.length; i++) {
-        assert.equal(expectedData[i], actualData[i])
+    for (const property in expectedData) {
+        await assert.equal(expectedData[property], actualData[property])
     }
 });
 

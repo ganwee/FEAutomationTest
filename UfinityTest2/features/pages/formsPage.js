@@ -11,7 +11,7 @@ class FormsPage {
     get PracticeFormDateOfBirthId() { return "dateOfBirthInput" }
     get PracticeFormDateSelectorByMonthClass() { return "react-datepicker__month-select" }
     get PracticeFormDateSelectorByYearClass() { return "react-datepicker__year-select" }
-    get PracticeFormDateSelectorByDayClass() { return "react-datepicker__day react-datepicker__day--018" }
+    get PracticeFormDateSelectorByDayClass() { return "react-datepicker__day react-datepicker__day--0" }
     get PracticeFormSubjectsClass() { return "subjects-auto-complete__control" }
     get PracticeFormSubjectsAutoCompleteTextboxId() { return "subjectsInput" }
     get PracticeFormSubjectsAutoCompleteMenuId() { return "react-select-2-option-0" }
@@ -31,10 +31,12 @@ class FormsPage {
     get WidgetsXPath() { return "//div[text()='Widgets']" }
 
     fillPracticeFormFirstName(driver, s) {
-        driver.findElement(By.id(this.PracticeFormFirstNameFieldId)).sendKeys(s);
+        let sArray = s.split(" ")
+        driver.findElement(By.id(this.PracticeFormFirstNameFieldId)).sendKeys(sArray[0]);
     }
     fillPracticeFormLastName(driver, s) {
-        driver.findElement(By.id(this.PracticeFormLastNameFieldId)).sendKeys(s);
+        let sArray = s.split(" ")
+        driver.findElement(By.id(this.PracticeFormLastNameFieldId)).sendKeys(sArray[1]);
     }
     fillPracticeFormEmail(driver, s) {
         driver.findElement(By.id(this.PracticeFormEmailFieldId)).sendKeys(s);
@@ -48,15 +50,16 @@ class FormsPage {
         driver.findElement(By.id(this.PracticeFormMobileFieldId)).sendKeys(s);
     }
     async fillPracticeFormDateOfBirth(driver, s) {
+        let sArray = s.split(/[\s,]+/)
         await driver.findElement(By.id(this.PracticeFormDateOfBirthId)).click();
         await driver.wait(until.elementLocated(By.className(this.PracticeFormDateSelectorByMonthClass)), 10 * 1000)
 
         let monthSelector = new Select(driver.findElement(By.className(this.PracticeFormDateSelectorByMonthClass)))
         let yearSelector = new Select(driver.findElement(By.className(this.PracticeFormDateSelectorByYearClass)))
 
-        await monthSelector.selectByVisibleText("November");
-        await yearSelector.selectByVisibleText("1990");
-        await driver.findElement(By.className(this.PracticeFormDateSelectorByDayClass)).click();
+        await monthSelector.selectByVisibleText(sArray[1]);
+        await yearSelector.selectByVisibleText(sArray[2]);
+        await driver.findElement(By.className(this.PracticeFormDateSelectorByDayClass+sArray[0])).click();
     }
     async fillPracticeFormSubjects(driver, s) {
         let sArray = s.split(",")
@@ -69,7 +72,7 @@ class FormsPage {
         }
     }
     async fillPracticeFormHobbies(driver, s) {
-        let sArray = s.split(",")
+        let sArray = s.split(/[\s,]+/)
         for (let i = 0; i < sArray.length; i++) {
             if (sArray[i] == "Sports") {
                 driver.findElement(By.xpath(this.PracticeFormHobbiesSportsCheckBoxXPath)).click();
@@ -86,19 +89,22 @@ class FormsPage {
     fillPracticeFormCurrentAddress(driver, s) {
         driver.findElement(By.id(this.PracticeFormCurrentAddressTextAreaId)).sendKeys(s);
     }
-    async fillPracticeFormStateAndCity(driver, s1, s2) {
+    async fillPracticeFormStateAndCity(driver, s) {
+        let state = s.split(" ")[0]
+        let city = s.split(" ")[1]
+
         await driver.findElement(By.id(this.PracticeFormStateDropDownId)).click();
         await driver.wait(until.elementLocated(By.xpath(this.PracticeFormStateDropDownListOptionXPath)), 10 * 1000)
-        await driver.findElement(By.xpath("//*[text()='" + s1 + "']")).click();
+        await driver.findElement(By.xpath("//*[text()='" + state + "']")).click();
 
         await driver.findElement(By.id(this.PracticeFormCityDropDownId)).click();
         await driver.wait(until.elementLocated(By.xpath(this.PracticeFormCityDropDownListOptionXPath)), 10 * 1000)
-        await driver.findElement(By.xpath("//*[text()='" + s2 + "']")).click();
+        await driver.findElement(By.xpath("//*[text()='" + city + "']")).click();
 
 
     }
     async fillAllDataExceptLastNameAndCityState(driver, data) {
-        await this.fillPracticeFormFirstName(driver, data['firstName']) //working
+        await this.fillPracticeFormFirstName(driver, data['fullName']) //working
         await this.fillPracticeFormEmail(driver, data['email']) //working
         await this.fillPracticeFormGender(driver, data['gender']) //working
         await this.fillPracticeFormMobile(driver, data['mobile']) //working
@@ -109,10 +115,10 @@ class FormsPage {
         await this.fillPracticeFormCurrentAddress(driver, data['address']) //working
     }
     async fillDataLastName(driver, data) {
-        await this.fillPracticeFormLastName(driver, data['lastName']) //working
+        await this.fillPracticeFormLastName(driver, data['fullName']) //working
     }
     async fillDataStateAndCity(driver, data) {
-        await this.fillPracticeFormStateAndCity(driver, data['state'], data['city']) //working
+        await this.fillPracticeFormStateAndCity(driver, data['stateAndCity']) //working
     }
     async submitData(driver) {
         await driver.findElement(By.id(this.PracticeFormSubmitButtonId)).click();
