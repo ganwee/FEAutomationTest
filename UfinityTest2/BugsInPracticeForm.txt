@@ -1,0 +1,46 @@
+Bugs and Potential Bugs found in Practice Form Page
+
+Functional Bugs
+1. Page crash when subject field totally cleared
+  - Input any ONE subject
+    - Clear input using 'x' button beside subject name, OR
+    - CLear input using backspace keyboard key
+  Expected: Subject cleared successfully
+  Actual: Page crashes and unable to navigate (even after using forward and back keys). Requires user to refresh page to work
+
+2. Unable to close overlaying ad at bottom of page which blocks fields at 100% zoom
+  - Attempt to close Ad 
+  Expected: Ad closes successfully
+  Actual: Ad continues to overlay elements
+
+3. Upload Picture is able to accept non-image file formats
+  - Click Choose File button
+    - Upload .zip/.mp3/.pdf (non-image file formats)
+  Expected: Non-image file formats will be rejected or have a warning message
+  Actual: File uploaded successfully with no errors
+
+4. Text around 'Choose File' button triggers Choose File Pop Up page
+  - Click on 'Select picture' text or 'No file chosen' horizontal line
+  Expected: Only 'Choose File' button triggers pop up
+  Actual: Clicking on 'Select picture' text or 'No file chosen' horizontal line triggers pop up
+    
+5. Able to Submit incomplete form (Mandatory fields not defined)
+  - Submit form with only:
+    - First Name
+    - Last Name
+    - Gender
+    - Mobile
+    - Date of Birth
+  Expected: Form is not able to submit, all incomplete fields are marked as erroneous
+  Actual: Form submitted successfully
+
+UI/UX Bugs
+1. (Submit Form Pop-Up) Missing Separator in City and State field (minor UX bug)
+  - Expected: NCR, Noida
+  - Actual: NCR Noida
+
+Possible Bugs
+1. Form fields cleared after closing 'Thank you for submitting' pop up (Possible bug, depending on user requirements)
+  - Click close on successful submission pop up
+  Expected: Submitted fields remain
+  Actual: Submitted fields are cleared
