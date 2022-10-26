@@ -5,3 +5,4 @@
 3. git clone repo
 4. cd to project directory (UfinityTest1 or UfinityTest2)
 5. run cmd `npm test`
+6. Link to video recording (https://drive.google.com/drive/folders/1Y14fPJAXb5V7U4kSbON7CTEaJT5-n0zt?usp=sharing)

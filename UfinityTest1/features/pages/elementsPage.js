@@ -25,14 +25,14 @@ class ElementsPage {
     fillTextBoxPermanentAddress(driver, s) {
         driver.findElement(By.id(this.TextBoxPermanentAddressFieldId)).sendKeys(s);
     }
-    fillAllData(driver, data) {
-        this.fillTextBoxFullName(driver, data['Full Name'])
-        this.fillTextBoxEmail(driver, data['Email'])
-        this.fillTextBoxCurrentAddress(driver, data['Current Address'])
-        this.fillTextBoxPermanentAddress(driver, data['Permanent Address'])
+    async fillAllData(driver, data) {
+        await this.fillTextBoxFullName(driver, data['Full Name'])
+        await this.fillTextBoxEmail(driver, data['Email'])
+        await this.fillTextBoxCurrentAddress(driver, data['Current Address'])
+        await this.fillTextBoxPermanentAddress(driver, data['Permanent Address'])
     }
-    submitData(driver) {
-        driver.findElement(By.id(this.TextBoxSubmitButtonId)).click();
+    async submitData(driver) {
+        await driver.findElement(By.id(this.TextBoxSubmitButtonId)).click();
     }
 }
 

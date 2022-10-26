@@ -42,16 +42,16 @@ class WebTablePage {
     fillWebTableDepartment(driver, s) {
         driver.findElement(By.id(this.WebTableDepartmentFieldId)).sendKeys(s);
     }
-    fillAllData(driver, data) {
-        this.fillWebTableFirstName(driver, data['First Name'])
-        this.fillWebTableLastName(driver, data['Last Name'])
-        this.fillWebTableEmail(driver, data['Email'])
-        this.fillWebTableSalary(driver, data['Salary'])
-        this.fillWebTableAge(driver, data['Age'])
-        this.fillWebTableDepartment(driver, data['Department'])
+    async fillAllData(driver, data) {
+        await this.fillWebTableFirstName(driver, data['First Name'])
+        await this.fillWebTableLastName(driver, data['Last Name'])
+        await this.fillWebTableEmail(driver, data['Email'])
+        await this.fillWebTableSalary(driver, data['Salary'])
+        await this.fillWebTableAge(driver, data['Age'])
+        await this.fillWebTableDepartment(driver, data['Department'])
     }
-    submitData(driver) {
-        driver.findElement(By.id(this.WebTableSubmitButtonId)).click();
+    async submitData(driver) {
+        await driver.findElement(By.id(this.WebTableSubmitButtonId)).click();
     }
 }
 
