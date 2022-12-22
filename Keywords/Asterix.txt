@@ -1,0 +1,13 @@
+--*-- (Optional)
+Can be used if there is a list of things
+
+Given I am grocery shopping
+Given I buy bananas
+Given I buy cucumber
+Given I buy sausages
+
+Re-write as
+Given I am grocery shopping
+* I buy bananas
+* I buy cucumber
+* I buy sausages

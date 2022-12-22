@@ -1,0 +1,22 @@
+--And--
+Can be used in place of multiple Given, When or Then keywords
+
+E.g. Replace Given
+Given 1
+Given 2
+Given 3
+
+Re-write as
+Given 1
+and 2
+and 3
+
+E.g. Replace Then
+Then 1
+Then 2
+Then 3
+
+Re-write as
+Then 1
+and 2
+and 3

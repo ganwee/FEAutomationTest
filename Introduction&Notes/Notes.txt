@@ -1,0 +1,23 @@
+--Gherkin--
+Each Feature file has 3 things
+1. Summary - One line Summary for the Feature
+2. Description - Multi-line description describing feature in more detail (Optional, can help to make summary more concise)
+3. List of Scenarios - Feature should contain all the related scenarios that make up the feature
+
+E.g.
+Feature: Shopping Basket
+User should be able to amend the items in basket, change quantities and clear the basket
+Scenario: ...
+Scenario: ...
+Scenario: ...
+
+--Scenario--
+Scenario is the situation that can be tested, and a concrete example that illustrates the business rule.
+Scenario has 3 things
+1. Summary - One line Summary for the Scenario. Need to be specific, not vague
+2. Description - Multi-line description describing scenario in more detail (Optional, can help to make summary more concise)
+3. List of Steps - To validate the software
+
+E.g.
+Scenario: User can checkout of basket page
+User should be able to press checkout button and checkout from the basket page

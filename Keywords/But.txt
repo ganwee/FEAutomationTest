@@ -1,0 +1,12 @@
+--But--
+Used when the expected result is implied negative
+
+E.g.
+Then control is in edit mode
+And save button is visible
+And edit button is not visible
+
+Re-write as
+Then control is in edit mode
+And save button is visible
+but edit button is not visible

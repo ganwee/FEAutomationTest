@@ -1,0 +1,5 @@
+--Rule-- (Optional)
+Note: Only added in Gherkin 6 and above
+
+Groups one or more scenarios together under the same business rule
+A simple grouping mechanism

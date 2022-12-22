@@ -1,0 +1,9 @@
+--Given--
+Describes the initial context of the situation / The "Scene" of the scenario
+Usually describes something that happened in the past
+Puts the system into a known state before user starts the journey to interact with the system
+
+E.g.
+Given I am logged in
+Given I have 70 dollars
+Given I am a registered user

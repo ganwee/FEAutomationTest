@@ -1,0 +1,8 @@
+--When--
+Describes the event or action that needs to happen
+Triggered by an actor whether a person or another system
+
+E.g. 
+When I click the login button
+When I click the add to cart button
+When I click the checkout button

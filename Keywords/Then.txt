@@ -1,0 +1,8 @@
+--Then--
+Describes the result or expected outcome
+Observable output from user perspective
+
+E.g.
+Then an alert appears on screen
+Then an email is sent
+Then product is removed from the basket

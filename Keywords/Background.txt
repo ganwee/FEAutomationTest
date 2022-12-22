@@ -1,0 +1,2 @@
+--Background--
+Used to prevent the need to repeat Given statements if shared across all scenarios
